@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-""" 
+"""
     Starter code for exploring the Enron dataset (emails + finances);
     loads up the dataset (pickled dict of dicts).
 
@@ -12,24 +12,31 @@
     but here's an example to get you started:
 
     enron_data["SKILLING JEFFREY K"]["bonus"] = 5600000
-    
+
 """
 
-import pickle
+import cPickle
 import sys
-sys.path.append("/home/lp-153/shubham/udacity_ml/ud120-projects/final_project")
+sys.path.append("/Users/shubhamgupta/shubham/udacity_ml/final_project")
 from poi_email_addresses import poiEmails
-
-enron_data = pickle.load(open("../final_project/final_project_dataset.pkl", "r"))
+import pdb
+enron_data = cPickle.load(open("../final_project/final_project_dataset.pkl", "r"))
 address_list = poiEmails()
 valid_email_count = 0
 valid_salary_count = 0
+valid_poi = 0
 for obj in enron_data.iteritems():
     x, y = obj
+    if y.get("email_address") in address_list:
+        valid_poi += 1
     if y.get("email_address") != "NaN":
         valid_email_count += 1
     if y.get("salary") != "NaN":
         valid_salary_count += 1
 
-print valid_email_count
-print valid_salary_count
+print(len(enron_data))
+print(valid_poi)
+print(valid_email_count)
+print(valid_salary_count)
+
+from sklearn.linear_model import LinearRegression
