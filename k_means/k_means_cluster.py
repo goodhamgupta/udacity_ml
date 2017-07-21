@@ -12,7 +12,7 @@ import sys
 sys.path.append("../tools/")
 from feature_format import featureFormat, targetFeatureSplit
 from sklearn.cluster import KMeans
-
+from sklearn.preprocessing import MinMaxScaler
 
 def Draw(pred, features, poi, mark_poi=False, name="image.png", f1_name="feature 1", f2_name="feature 2"):
     """ some plotting code designed to help you visualize your clusters """
@@ -69,21 +69,25 @@ for key,value in data_dict.items():
 # you'll want to change this line to
 # for f1, f2, _ in finance_features:
 # (as it's currently written, the line below assumes 2 features)
-for f1, f2 in finance_features:
+scalar = MinMaxScaler()
+scaled_features = scalar.fit_transform(finance_features)
+for f1, f2 in scaled_features:
     plt.scatter(f1, f2)
 plt.show()
 
+import pdb
+pdb.set_trace()
 # cluster here; create predictions of the cluster labels
 # for the data and store them to a list called pred
 
 clr = KMeans(n_clusters=2, max_iter=500)
-clr.fit(finance_features, poi)
-pred = clr.predict(finance_features)
+clr.fit(scaled_features, poi)
+pred = clr.predict(scaled_features)
 
 # rename the "name" parameter when you change the number of features
 # so that the figure gets saved to a different file
 try:
-    Draw(pred, finance_features, poi, mark_poi=False,
+    Draw(pred, scaled_features, poi, mark_poi=False,
          name="clusters.pdf", f1_name=feature_1, f2_name=feature_2)
 except NameError:
     print "no predictions object named pred found, no clusters to plot"
