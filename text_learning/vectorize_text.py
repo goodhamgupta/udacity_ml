@@ -49,7 +49,7 @@ for name, from_person in [("sara", from_sara), ("chris", from_chris)]:
 
         # use parseOutText to extract the text from the opened email
         words = parseOutText(email)
-        for w in ["sara", "shackleton", "chris", "germani"]:
+        for w in ["sara", "shackleton", "chris", "germani", "sshacklensf", "cgermannsf"]:
             words = words.replace(w, "")
         # use str.replace() to remove any instances of the words
         ### ["sara", "shackleton", "chris", "germani"]
@@ -79,6 +79,3 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 
 vectorizer = TfidfVectorizer(stop_words='english')
 vectorizer.fit(word_data) # Default stop_words argument is 'english'
-import pdb
-pdb.set_trace()
-
