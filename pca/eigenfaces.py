@@ -26,8 +26,7 @@ import numpy as np
 from sklearn.cross_validation import train_test_split
 from sklearn.datasets import fetch_lfw_people
 from sklearn.grid_search import GridSearchCV
-from sklearn.metrics import classification_report
-from sklearn.metrics import confusion_matrix
+from sklearn.metrics import classification_report, confusion_matrix, f1_score
 from sklearn.decomposition import RandomizedPCA
 from sklearn.svm import SVC
 
@@ -74,7 +73,6 @@ pca = RandomizedPCA(n_components=n_components, whiten=True).fit(X_train)
 print "done in %0.3fs" % (time() - t0)
 
 eigenfaces = pca.components_.reshape((n_components, h, w))
-
 print "Projecting the input data on the eigenfaces orthonormal basis"
 t0 = time()
 X_train_pca = pca.transform(X_train)
@@ -109,7 +107,7 @@ print "done in %0.3fs" % (time() - t0)
 
 print classification_report(y_test, y_pred, target_names=target_names)
 print confusion_matrix(y_test, y_pred, labels=range(n_classes))
-
+print "F1 score: ", f1_score(y_test, y_pred)
 
 ###############################################################################
 # Qualitative evaluation of the predictions using matplotlib
